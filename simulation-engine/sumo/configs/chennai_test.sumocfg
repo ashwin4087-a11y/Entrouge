@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="../networks/chennai_test.net.xml"/>
+        <route-files value="../routes/chennai_test.rou.xml"/>
+    </input>
+
+    <time>
+        <begin value="0"/>
+        <end value="1200"/>
+    </time>
+
+    <processing>
+        <ignore-route-errors value="true"/>
+        <time-to-teleport value="120"/>
+        <routing-algorithm value="astar"/>
+    </processing>
+
+    <report>
+        <verbose value="true"/>
+        <no-step-log value="false"/>
+    </report>
+
+    <gui_only>
+        <gui-settings-file value="gui-settings.xml"/>
+    </gui_only>
+
+</configuration>

@@ -19,19 +19,4 @@ Thumbs.db
 
 *.pt
 *.pth
-*.ckpt
-
-*.net.xml
-*.rou.xml
-*.sumocfg
-
-# Generated OSM data (regenerate via scripts)
-*.osm
-*.graphml
-*.geojson
-
-# Simulation results (regenerated each run)
-simulation-engine/results/
-
-# Cache
-cache/
+*.ckpt

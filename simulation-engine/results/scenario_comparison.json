@@ -1,0 +1,34 @@
+{
+    "scenario": {
+        "type": "road_closure",
+        "network": "Chennai",
+        "closed_edge": "28138955#1",
+        "closure_time": 300
+    },
+    "baseline": {
+        "departed": 42,
+        "arrived": 42,
+        "average_speed_mps": 10.61,
+        "average_wait_sec": 3.77,
+        "max_wait_sec": 40.0,
+        "teleports": 0
+    },
+    "closure": {
+        "departed": 42,
+        "arrived": 42,
+        "average_speed_mps": 10.79,
+        "average_wait_sec": 6.25,
+        "max_wait_sec": 100.0,
+        "teleports": 2
+    },
+    "impact": {
+        "speed_change_percent": 1.68,
+        "waiting_time_change_percent": 65.92,
+        "arrival_change_percent": 0.0
+    },
+    "rerouting": {
+        "affected_vehicles": 6,
+        "rerouted_vehicles": 4,
+        "failed_reroutes": 2
+    }
+}
