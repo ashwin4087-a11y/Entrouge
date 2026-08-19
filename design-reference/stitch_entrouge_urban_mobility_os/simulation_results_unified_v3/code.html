@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ENTROUGE - Simulation Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "inverse-on-surface": "#f2f0f0",
+                "inverse-primary": "#a3c9ff",
+                "interaction-blue": "#3F72AF",
+                "outline": "#727781",
+                "tertiary-fixed": "#d4e3ff",
+                "error": "#ba1a1a",
+                "surface-container-high": "#e9e8e8",
+                "surface-dim": "#dbdada",
+                "on-primary-fixed-variant": "#004882",
+                "deep-navy": "#112D4E",
+                "on-primary-fixed": "#001c39",
+                "on-surface-variant": "#424750",
+                "tertiary": "#40597c",
+                "primary-fixed": "#d3e3ff",
+                "on-tertiary-container": "#f2f5ff",
+                "inverse-surface": "#303031",
+                "tertiary-container": "#587196",
+                "surface-tint": "#2a609c",
+                "on-secondary-fixed": "#151c25",
+                "on-primary-container": "#f2f5ff",
+                "surface-pale": "#DBE2EF",
+                "tertiary-fixed-dim": "#afc8f1",
+                "surface-container-highest": "#e4e2e2",
+                "on-error": "#ffffff",
+                "on-secondary": "#ffffff",
+                "surface-variant": "#e4e2e2",
+                "primary-fixed-dim": "#a3c9ff",
+                "on-error-container": "#93000a",
+                "surface-bright": "#fbf9f9",
+                "on-secondary-container": "#5c636e",
+                "primary-container": "#3f72af",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed-variant": "#2f486a",
+                "error-container": "#ffdad6",
+                "on-surface": "#112D4E",
+                "canvas": "#F9F7F7",
+                "on-primary": "#ffffff",
+                "on-background": "#112D4E",
+                "on-tertiary-fixed": "#001c3a",
+                "secondary": "#585f6a",
+                "on-secondary-fixed-variant": "#404752",
+                "surface-container-low": "#f5f3f3",
+                "surface": "#DBE2EF",
+                "primary": "#3F72AF",
+                "on-tertiary": "#ffffff",
+                "secondary-fixed-dim": "#c0c7d3",
+                "background": "#F9F7F7",
+                "secondary-container": "#d9e0ed",
+                "outline-variant": "#c2c6d1",
+                "surface-container": "#efeded",
+                "secondary-fixed": "#dce3f0"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "nav-height": "64px",
+                "unit": "4px",
+                "panel-width": "380px",
+                "margin-sm": "16px",
+                "margin-md": "24px",
+                "gutter": "16px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "Inter"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "label-md": [
+                        "JetBrains Mono"
+                ],
+                "display-lg": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Inter"
+                ],
+                "title-lg": [
+                        "Inter"
+                ],
+                "headline-lg-mobile": [
+                        "Inter"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "label-sm": [
+                        "JetBrains Mono"
+                ]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "title-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-sm": [
+                        "10px",
+                        {
+                                "lineHeight": "14px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        /* Custom scrollbar to match design system */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #DBE2EF; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a3c9ff; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3F72AF; 
+        }
+        
+        /* Utility for low-glow hover effect */
+        .hover-glow:hover {
+            box-shadow: inset 0 0 12px rgba(63, 114, 175, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-canvas text-deep-navy font-body-md h-screen overflow-hidden flex flex-col">
+<!-- TopNavBar -->
+<nav class="bg-surface text-interaction-blue docked full-width top-0 h-nav-height border-b border-outline-variant flat no shadows fixed top-0 left-0 w-full z-50 flex items-center justify-between px-gutter">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<img alt="Entrouge Logo" class="w-8 h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6FsMMRXC-i4YaTu9Z_5PzV748e8K9Xbpf783z-6N_KugGxVWoFdC65-__nayyGUUxYuf5vYBExdZSbFA12M5u9u9rN4c2KHFGi5Xfm3vmEdpDi_tSd1wDlf0CnNb5IWyXOHGIX5VjklYe2VdmzyrH6iWt_Qnq1JA84xTE4MWMVwrWdI_hYTjdaRrjOQ_CcecHnfj4rK5yBNfEhrEM6tBeMF51IJlxbmq9qYqh8HhefGbag2yUs8X1ArRwm9KYv_Sk1w"/>
+<span class="text-title-lg font-headline-lg tracking-widest text-deep-navy uppercase">ENTROUGE</span>
+</div>
+<div class="hidden md:flex gap-6 ml-8">
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors px-2 py-1 flex flex-col justify-center" href="#">
+<span class="text-label-md font-label-md">DIGITAL TWIN</span>
+</a>
+<a class="text-interaction-blue hover:bg-surface-container-high transition-colors px-2 py-1 flex flex-col justify-center border-b-2 border-interaction-blue" href="#">
+<span class="text-label-md font-label-md font-bold">SCENARIOS</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors px-2 py-1 flex flex-col justify-center" href="#">
+<span class="text-label-md font-label-md">REPORTS</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors px-2 py-1 flex flex-col justify-center" href="#">
+<span class="text-label-md font-label-md">COPILOT</span>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-label-md font-label-md text-interaction-blue mr-2 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-interaction-blue animate-pulse"></span> Live Status
+            </span>
+<button class="text-on-surface-variant hover:text-deep-navy transition-colors" data-icon="notifications">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-deep-navy transition-colors" data-icon="schedule">
+<span class="material-symbols-outlined">schedule</span>
+</button>
+<button class="text-on-surface-variant hover:text-deep-navy transition-colors" data-icon="account_circle">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</nav>
+<div class="flex flex-1 pt-nav-height h-full overflow-hidden">
+<!-- SideNavBar -->
+<aside class="bg-surface text-interaction-blue docked left-0 h-[calc(100vh-64px)] w-[280px] border-r border-outline-variant shadow-md fixed left-0 top-nav-height z-40 flex flex-col transition-transform duration-300 md:translate-x-0 -translate-x-full absolute md:relative">
+<div class="p-4 border-b border-outline-variant">
+<h2 class="text-title-lg font-title-lg text-deep-navy mb-1">CITY NETWORK</h2>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Chennai District</p>
+<button class="w-full mt-4 bg-interaction-blue text-on-primary py-2 rounded font-label-md text-label-md hover:bg-primary-container hover:text-on-primary transition-colors">
+                    RUN SIMULATION
+                </button>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<nav class="flex flex-col gap-1">
+<a class="text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 px-4 py-3 mx-2 rounded flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="text-label-md font-label-md">Network</span>
+</a>
+<a class="bg-primary-container text-on-primary rounded-lg mx-2 hover:bg-interaction-blue transition-all duration-200 px-4 py-3 flex items-center gap-3 border-l-4 border-deep-navy" href="#">
+<span class="material-symbols-outlined" data-icon="alt_route" data-weight="fill" style="font-variation-settings: 'FILL' 1;">alt_route</span>
+<span class="text-label-md font-label-md font-bold">Corridors</span>
+</a>
+<a class="text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 px-4 py-3 mx-2 rounded flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-label-md font-label-md">KPIs</span>
+</a>
+<a class="text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 px-4 py-3 mx-2 rounded flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="text-label-md font-label-md">AI Copilot</span>
+</a>
+<a class="text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 px-4 py-3 mx-2 rounded flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</nav>
+</div>
+<div class="p-2 border-t border-outline-variant">
+<a class="text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 px-4 py-2 mx-2 rounded flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
+<span class="text-label-sm font-label-sm">Support</span>
+</a>
+<a class="text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 px-4 py-2 mx-2 rounded flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="history">history</span>
+<span class="text-label-sm font-label-sm">Logs</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 flex flex-col md:ml-0 relative h-[calc(100vh-64px)] overflow-y-auto w-full pb-10 bg-canvas">
+<!-- Content Overlay (Layer 1 & 2) -->
+<div class="relative z-10 flex flex-col h-full p-gutter gap-margin-md max-w-[1600px] mx-auto w-full">
+<!-- Header -->
+<header class="flex justify-between items-end mb-2">
+<div>
+<div class="flex items-center gap-2 text-label-md font-label-md text-interaction-blue mb-1">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>SIMULATION COMPLETE</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-deep-navy">Anna Salai Closure Scenario</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Impact analysis for full closure between Teynampet and Saidapet intersections.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-outline-variant text-deep-navy rounded bg-surface hover:bg-surface-container transition-colors text-label-md font-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">compare_arrows</span>
+                            COMPARE SCENARIOS
+                        </button>
+<button class="px-4 py-2 border border-outline-variant text-deep-navy rounded bg-surface hover:bg-surface-container transition-colors text-label-md font-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                            EXPORT REPORT
+                        </button>
+</div>
+</header>
+<!-- Hierarchy 1: Key Metrics -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-margin-sm">
+<!-- Congestion Metric -->
+<div class="bg-surface p-4 rounded-lg border border-outline-variant flex flex-col hover-glow transition-all shadow-sm">
+<div class="text-label-sm font-label-sm text-on-surface-variant mb-1 flex justify-between items-center font-bold">
+                            NETWORK CONGESTION
+                            <span class="material-symbols-outlined text-error text-[16px]">trending_up</span>
+</div>
+<div class="flex items-baseline gap-3">
+<span class="text-headline-md font-headline-md text-on-surface-variant line-through opacity-60">64%</span>
+<span class="text-display-lg font-display-lg text-error">71%</span>
+</div>
+<div class="text-label-sm font-label-sm text-error mt-1 font-bold">+7% increase from baseline</div>
+</div>
+<!-- Travel Time Metric -->
+<div class="bg-surface p-4 rounded-lg border border-outline-variant flex flex-col hover-glow transition-all shadow-sm">
+<div class="text-label-sm font-label-sm text-on-surface-variant mb-1 flex justify-between items-center font-bold">
+                            AVG TRAVEL TIME
+                            <span class="material-symbols-outlined text-error text-[16px]">trending_up</span>
+</div>
+<div class="flex items-baseline gap-3">
+<span class="text-headline-md font-headline-md text-on-surface-variant line-through opacity-60">21.4m</span>
+<span class="text-display-lg font-display-lg text-error">24.8m</span>
+</div>
+<div class="text-label-sm font-label-sm text-error mt-1 font-bold">+3.4m delay per vehicle</div>
+</div>
+<!-- CO2 Metric -->
+<div class="bg-surface p-4 rounded-lg border border-outline-variant flex flex-col hover-glow transition-all shadow-sm">
+<div class="text-label-sm font-label-sm text-on-surface-variant mb-1 flex justify-between items-center font-bold">
+                            EST. CO2 EMISSIONS / HR
+                            <span class="material-symbols-outlined text-error text-[16px]">trending_up</span>
+</div>
+<div class="flex items-baseline gap-3">
+<span class="text-headline-md font-headline-md text-on-surface-variant line-through opacity-60">4.9t</span>
+<span class="text-display-lg font-display-lg text-error">5.8t</span>
+</div>
+<div class="text-label-sm font-label-sm text-error mt-1 font-bold">+0.9t environmental impact</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col xl:flex-row gap-margin-md min-h-0 mt-2">
+<!-- Left Column: Impact & Map -->
+<div class="flex-1 flex flex-col gap-margin-md">
+<!-- Hierarchy 2: Network Impact -->
+<div class="bg-surface border border-outline-variant rounded-lg p-5 shadow-sm">
+<h3 class="text-title-lg font-title-lg text-deep-navy border-b border-outline-variant pb-2 mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-interaction-blue">insights</span>
+                                Context: Network Impact
+                            </h3>
+<p class="text-body-md font-body-md text-on-surface-variant mb-4 leading-relaxed">
+                                The closure of Anna Salai triggers immediate severe cascading delays. Traffic volume is primarily forced onto <span class="text-deep-navy font-semibold bg-surface-container px-1 rounded">Venkatnarayana Rd</span> and <span class="text-deep-navy font-semibold bg-surface-container px-1 rounded">Chamiers Rd</span>, exceeding their design capacity by 140% within 15 minutes.
+                            </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div class="flex justify-between items-center text-label-md font-label-md bg-canvas p-3 rounded border border-outline-variant">
+<span class="text-on-surface-variant font-bold">Critical Node 1</span>
+<span class="text-error font-mono font-bold">Saidapet Jct (LOS F)</span>
+</div>
+<div class="flex justify-between items-center text-label-md font-label-md bg-canvas p-3 rounded border border-outline-variant">
+<span class="text-on-surface-variant font-bold">Critical Node 2</span>
+<span class="text-error font-mono font-bold">Teynampet Signal (LOS E)</span>
+</div>
+</div>
+</div>
+<!-- Hierarchy 3: Map -->
+<div class="flex-1 flex gap-unit min-h-[400px]">
+<div class="flex-1 relative bg-surface border border-outline-variant rounded-lg overflow-hidden flex flex-col shadow-sm">
+<div class="absolute top-0 left-0 right-0 bg-surface/90 backdrop-blur p-2 border-b border-outline-variant z-10 flex justify-between items-center">
+<span class="text-label-md font-label-md text-deep-navy font-bold">BASELINE (BEFORE)</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant font-mono bg-canvas px-2 py-1 rounded border border-outline-variant font-bold">T-0</span>
+</div>
+<div class="flex-1 bg-cover bg-center" data-alt="A light-mode map snippet showing the Anna Salai corridor in a normal state." data-location="Chennai" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBEInbFKfU9miUf8OCDY6uMFJ0zxX053IjU01rmMpvvhOp0bFMKtBqG0KELtALM_aAELv0kn6PfkrwCihYqxD8Fxi8y_LnCe5w4yoxKPD0nYMLT4QVIkBRb4Z2xvtClmzKrYTyGUWC-gWGjFREoTCb_8ES6JgTQQC_0zQPM-6j9ejh4LtI-y-2edP41mBFXjGGi87I6-b2pmzKg3KSs3xuowFbMYARNp-X6LB9jCQnZz1LV2Vxb9g9g')"></div>
+</div>
+<div class="flex-1 relative bg-surface border border-outline-variant rounded-lg overflow-hidden flex flex-col shadow-sm">
+<div class="absolute top-0 left-0 right-0 bg-error-container/90 backdrop-blur p-2 border-b border-error/30 z-10 flex justify-between items-center">
+<span class="text-label-md font-label-md text-on-error-container font-bold">SIMULATION (AFTER)</span>
+<span class="text-label-sm font-label-sm text-error font-mono bg-canvas px-2 py-1 rounded border border-error/30 font-bold">T+30m</span>
+</div>
+<div class="flex-1 bg-cover bg-center" data-alt="A light-mode map snippet showing the Anna Salai corridor post-closure with severe congestion." data-location="Chennai" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBEInbFKfU9miUf8OCDY6uMFJ0zxX053IjU01rmMpvvhOp0bFMKtBqG0KELtALM_aAELv0kn6PfkrwCihYqxD8Fxi8y_LnCe5w4yoxKPD0nYMLT4QVIkBRb4Z2xvtClmzKrYTyGUWC-gWGjFREoTCb_8ES6JgTQQC_0zQPM-6j9ejh4LtI-y-2edP41mBFXjGGi87I6-b2pmzKg3KSs3xuowFbMYARNp-X6LB9jCQnZz1LV2Vxb9g9g')"></div>
+</div>
+</div>
+</div>
+<!-- Right Column: AI Insights -->
+<div class="w-full xl:w-[450px] flex flex-col gap-margin-sm h-full flex-shrink-0">
+<!-- Hierarchy 4: Entrouge Recommendation -->
+<div class="bg-surface border-2 border-interaction-blue/30 rounded-lg p-6 shadow-md relative overflow-hidden flex-shrink-0 h-full flex flex-col">
+<h3 class="text-headline-md font-headline-md text-deep-navy border-b border-outline-variant pb-3 mb-4 flex items-center gap-2 relative z-10">
+<span class="material-symbols-outlined text-[28px] text-interaction-blue">smart_toy</span>
+                                ENTROUGE RECOMMENDATION
+                            </h3>
+<div class="mb-5 flex-1">
+<!-- WHAT HAPPENED? -->
+<div class="mb-4">
+<h4 class="text-label-md font-label-md text-interaction-blue mb-1 uppercase tracking-widest font-bold">WHAT HAPPENED?</h4>
+<p class="text-body-md font-body-md text-deep-navy">Closure triggered 140% capacity overload on alternatives.</p>
+</div>
+<!-- WHY? -->
+<div class="mb-4">
+<h4 class="text-label-md font-label-md text-interaction-blue mb-1 uppercase tracking-widest font-bold">WHY?</h4>
+<p class="text-body-md font-body-md text-deep-navy">Current signal timing cannot handle diverted volume surge.</p>
+</div>
+<!-- WHAT SHOULD WE DO? -->
+<div class="mb-4">
+<h4 class="text-label-md font-label-md text-interaction-blue mb-2 uppercase tracking-widest font-bold">WHAT SHOULD WE DO?</h4>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 bg-canvas p-3 rounded border border-outline-variant">
+<span class="material-symbols-outlined text-interaction-blue text-[20px]">adjust</span>
+<div>
+<div class="text-label-md font-label-md text-deep-navy font-bold">Extend Green Phase by +15s</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Chamiers Rd Northbound</div>
+</div>
+</li>
+<li class="flex items-start gap-2 bg-canvas p-3 rounded border border-outline-variant">
+<span class="material-symbols-outlined text-interaction-blue text-[20px]">adjust</span>
+<div>
+<div class="text-label-md font-label-md text-deep-navy font-bold">Deploy VMS Rerouting</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Divert at Guindy Kathipara Junction</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!-- EXPECTED IMPROVEMENT -->
+<div class="bg-canvas rounded-lg p-4 mb-5 border border-interaction-blue/20">
+<h4 class="text-label-md font-label-md text-interaction-blue mb-3 uppercase tracking-widest flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[16px]">trending_down</span> Expected Improvement
+                                </h4>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="text-label-sm font-label-sm text-on-surface-variant mb-1 font-bold">Congestion</div>
+<div class="flex items-baseline gap-2">
+<span class="text-body-lg font-body-lg text-error line-through opacity-70">71%</span>
+<span class="text-title-lg font-title-lg text-interaction-blue font-bold">65%</span>
+</div>
+</div>
+<div>
+<div class="text-label-sm font-label-sm text-on-surface-variant mb-1 font-bold">Avg Travel Time</div>
+<div class="flex items-baseline gap-2">
+<span class="text-body-lg font-body-lg text-error line-through opacity-70">24.8m</span>
+<span class="text-title-lg font-title-lg text-interaction-blue font-bold">22.5m</span>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full bg-interaction-blue text-on-primary py-3 rounded font-label-md text-label-md hover:bg-primary-container hover:text-on-primary transition-colors flex items-center justify-center gap-2 shadow-md font-bold">
+<span class="material-symbols-outlined text-[20px]">publish</span>
+                                PUSH TO SIGNAL CONTROLLERS
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface text-on-surface-variant docked full-width bottom-0 border-t border-outline-variant flat fixed bottom-0 left-0 w-full z-30 flex justify-between items-center px-gutter py-2">
+<div class="text-label-sm font-label-sm font-bold">
+            © 2024 ENTROUGE URBAN MOBILITY INTELLIGENCE
+        </div>
+<div class="flex gap-4">
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-deep-navy transition-colors flex items-center gap-1 font-bold" href="#">
+<span class="w-2 h-2 rounded-full bg-interaction-blue inline-block"></span> System Status: Operational
+            </a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-deep-navy transition-colors font-bold" href="#">API v2.4</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-deep-navy transition-colors font-bold" href="#">Documentation</a>
+</div>
+</footer>
+</body></html>

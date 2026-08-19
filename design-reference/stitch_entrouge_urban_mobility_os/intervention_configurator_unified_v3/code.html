@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Entrouge - Intervention Control</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "inverse-on-surface": "#f2f0f0",
+                "inverse-primary": "#a3c9ff",
+                "interaction-blue": "#3F72AF",
+                "outline": "#727781",
+                "tertiary-fixed": "#d4e3ff",
+                "error": "#ba1a1a",
+                "surface-container-high": "#e9e8e8",
+                "surface-dim": "#dbdada",
+                "on-primary-fixed-variant": "#004882",
+                "deep-navy": "#112D4E",
+                "on-primary-fixed": "#001c39",
+                "on-surface-variant": "#424750",
+                "tertiary": "#40597c",
+                "primary-fixed": "#d3e3ff",
+                "on-tertiary-container": "#f2f5ff",
+                "inverse-surface": "#303031",
+                "tertiary-container": "#587196",
+                "surface-tint": "#2a609c",
+                "on-secondary-fixed": "#151c25",
+                "on-primary-container": "#f2f5ff",
+                "surface-pale": "#DBE2EF",
+                "tertiary-fixed-dim": "#afc8f1",
+                "surface-container-highest": "#e4e2e2",
+                "on-error": "#ffffff",
+                "on-secondary": "#ffffff",
+                "surface-variant": "#e4e2e2",
+                "primary-fixed-dim": "#a3c9ff",
+                "on-error-container": "#93000a",
+                "surface-bright": "#fbf9f9",
+                "on-secondary-container": "#5c636e",
+                "primary-container": "#3f72af",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed-variant": "#2f486a",
+                "error-container": "#ffdad6",
+                "on-surface": "#112D4E",
+                "canvas": "#F9F7F7",
+                "on-primary": "#ffffff",
+                "on-background": "#112D4E",
+                "on-tertiary-fixed": "#001c3a",
+                "secondary": "#585f6a",
+                "on-secondary-fixed-variant": "#404752",
+                "surface-container-low": "#f5f3f3",
+                "surface": "#DBE2EF",
+                "primary": "#3F72AF",
+                "on-tertiary": "#ffffff",
+                "secondary-fixed-dim": "#c0c7d3",
+                "background": "#F9F7F7",
+                "secondary-container": "#d9e0ed",
+                "outline-variant": "#c2c6d1",
+                "surface-container": "#efeded",
+                "secondary-fixed": "#dce3f0"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "nav-height": "64px",
+                "unit": "4px",
+                "panel-width": "380px",
+                "margin-sm": "16px",
+                "margin-md": "24px",
+                "gutter": "16px",
+                "top-bar-height": "64px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "Inter"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "label-md": [
+                        "JetBrains Mono"
+                ],
+                "display-lg": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Inter"
+                ],
+                "title-lg": [
+                        "Inter"
+                ],
+                "headline-lg-mobile": [
+                        "Inter"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "label-sm": [
+                        "JetBrains Mono"
+                ]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "title-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-sm": [
+                        "10px",
+                        {
+                                "lineHeight": "14px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body { background-color: theme('colors.canvas'); color: theme('colors.deep-navy'); margin: 0; overflow: hidden; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: theme('colors.surface-container-low'); }
+        ::-webkit-scrollbar-thumb { background: theme('colors.outline-variant'); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: theme('colors.outline'); }
+        
+        .map-bg {
+            background-color: theme('colors.deep-navy');
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(63, 114, 175, 0.1) 0%, transparent 60%),
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-position: center, -1px -1px, -1px -1px;
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(63, 114, 175, 0.2);
+        }
+        
+        .input-light {
+            background-color: theme('colors.canvas');
+            border-color: theme('colors.outline-variant');
+            color: theme('colors.deep-navy');
+        }
+        .input-light:focus {
+            border-color: theme('colors.interaction-blue');
+            box-shadow: 0 0 0 1px theme('colors.interaction-blue');
+            outline: none;
+        }
+        
+        .intervention-preview {
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(186, 26, 26, 0.2),
+                rgba(186, 26, 26, 0.2) 10px,
+                rgba(186, 26, 26, 0.4) 10px,
+                rgba(186, 26, 26, 0.4) 20px
+            );
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen antialiased bg-canvas text-deep-navy">
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-gutter bg-surface text-deep-navy docked full-width top-0 h-top-bar-height border-b border-outline-variant flat no shadows">
+<div class="flex items-center gap-margin-md">
+<span class="text-title-lg font-headline-lg tracking-widest text-deep-navy uppercase font-bold">ENTROUGE</span>
+<nav class="hidden md:flex items-center gap-margin-sm h-full pt-1">
+<a class="text-deep-navy text-label-md font-label-md hover:bg-surface-container-high transition-colors px-2 py-4 h-full flex items-center font-bold" href="#">DIGITAL TWIN</a>
+<a class="text-on-surface-variant text-label-md font-label-md hover:bg-surface-container-high transition-colors px-2 py-4 h-full flex items-center" href="#">SCENARIOS</a>
+<a class="text-on-surface-variant text-label-md font-label-md hover:bg-surface-container-high transition-colors px-2 py-4 h-full flex items-center" href="#">REPORTS</a>
+<a class="text-on-surface-variant text-label-md font-label-md hover:bg-surface-container-high transition-colors px-2 py-4 h-full flex items-center" href="#">COPILOT</a>
+</nav>
+</div>
+<div class="flex items-center gap-margin-sm">
+<button class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded bg-surface-container-high text-on-surface-variant hover:text-deep-navy text-label-md font-label-md transition-colors border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-interaction-blue animate-pulse"></span>
+                System Nominal
+            </button>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<button aria-label="notifications" class="p-2 hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined text-lg">notifications</span></button>
+<button aria-label="schedule" class="p-2 hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined text-lg">schedule</span></button>
+<button aria-label="account_circle" class="p-2 hover:bg-surface-container-high rounded transition-colors">
+<img alt="User profile" class="w-6 h-6 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAinM9h28tyJCAXiXkTD_n9wd8N0GvHFeCnSgixGg4ivUqTTgXsZY_B3gEFsgSr4eQjIu6w-v38u-KLKRX-52Y8WMAES_N14mCWqttvNXmf3UQvBsLnyr_slirgOubmwbApk9to42z9guRjtd8b500JK9GjNDIzRz5OlFueapVpvXEB3j2Nk99bXa8CMEkECXrtK1wn1w4FOdfwvkQfdhkMohDgIbbzs1usjbN0XvxRvNXpgxJoeThDSgBsUJs39nUQ1Q"/>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-top-bar-height overflow-hidden relative">
+<nav class="hidden md:flex flex-col fixed left-0 top-top-bar-height h-[calc(100vh-64px)] z-40 w-panel-width bg-surface border-r border-outline-variant shadow-sm">
+<div class="p-margin-md flex flex-col gap-4 border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center border border-outline-variant text-on-primary">
+<span class="material-symbols-outlined">account_tree</span>
+</div>
+<div>
+<h2 class="text-title-lg font-title-lg text-deep-navy font-semibold">CITY NETWORK</h2>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Chennai District</p>
+</div>
+</div>
+</div>
+<div class="flex-1 py-margin-sm overflow-y-auto">
+<ul class="flex flex-col gap-1">
+<li><a class="flex items-center gap-3 px-margin-sm py-2 text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 text-label-md font-label-md mx-2 rounded" href="#"><span class="material-symbols-outlined text-[20px]">hub</span> Topology</a></li>
+<li><a class="flex items-center gap-3 px-margin-sm py-2 text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 text-label-md font-label-md mx-2 rounded" href="#"><span class="material-symbols-outlined text-[20px]">route</span> Corridors</a></li>
+<li><a class="flex items-center gap-3 px-margin-sm py-2 text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 text-label-md font-label-md mx-2 rounded" href="#"><span class="material-symbols-outlined text-[20px]">insights</span> Telemetry</a></li>
+<li><a class="flex items-center gap-3 px-margin-sm py-2 bg-primary-container text-on-primary rounded-lg mx-2 border-l-4 border-deep-navy text-label-md font-label-md font-bold" href="#"><span class="material-symbols-outlined text-[20px]">construction</span> Interventions</a></li>
+<li><a class="flex items-center gap-3 px-margin-sm py-2 text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 text-label-md font-label-md mx-2 rounded" href="#"><span class="material-symbols-outlined text-[20px]">settings</span> Configuration</a></li>
+</ul>
+</div>
+<div class="mt-auto border-t border-outline-variant py-margin-sm">
+<ul class="flex flex-col gap-1">
+<li><a class="flex items-center gap-3 px-margin-sm py-2 text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 text-label-md font-label-md mx-2 rounded" href="#"><span class="material-symbols-outlined text-[20px]">help</span> Documentation</a></li>
+<li><a class="flex items-center gap-3 px-margin-sm py-2 text-on-surface-variant hover:text-deep-navy hover:bg-surface-container transition-all duration-200 text-label-md font-label-md mx-2 rounded" href="#"><span class="material-symbols-outlined text-[20px]">history</span> Audit Logs</a></li>
+</ul>
+</div>
+</nav>
+<main class="flex-1 relative md:ml-panel-width map-bg" data-location="Chennai">
+<div class="absolute top-margin-sm right-margin-sm z-10 flex gap-2">
+<button class="w-10 h-10 bg-surface border border-outline-variant rounded flex items-center justify-center text-deep-navy hover:text-interaction-blue transition-colors shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">layers</span>
+</button>
+<div class="flex flex-col gap-1 bg-surface border border-outline-variant rounded shadow-sm overflow-hidden">
+<button class="w-10 h-10 flex items-center justify-center text-deep-navy hover:bg-surface-container transition-colors border-b border-outline-variant">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-deep-navy hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+</div>
+<div class="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none flex flex-col items-center">
+<div class="relative w-64 h-32 flex items-center justify-center intervention-preview border-2 border-error border-dashed rounded-lg opacity-80">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-surface-container-lowest px-3 py-1 rounded-full border border-error text-error text-label-sm font-label-sm shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">block</span>
+                ROAD CLOSED
+            </div>
+</div>
+</div>
+<div class="mt-4 bg-surface px-4 py-2 rounded-lg border border-outline-variant shadow-md text-center">
+<div class="text-title-lg font-title-lg font-bold text-deep-navy">Anna Salai</div>
+<div class="text-label-md font-label-md text-error mt-1">3.2 km Affected Segment</div>
+</div>
+</div>
+<div class="absolute top-margin-sm bottom-margin-sm right-margin-sm md:right-8 z-20 w-[420px] bg-surface border border-outline-variant rounded-xl shadow-lg flex flex-col overflow-hidden hidden md:flex">
+<div class="px-margin-md py-4 border-b border-outline-variant flex justify-between items-center bg-surface">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-interaction-blue">engineering</span>
+<h3 class="text-title-lg font-title-lg text-deep-navy font-semibold tracking-wide">CONFIGURE INTERVENTION</h3>
+</div>
+<button class="text-on-surface-variant hover:text-deep-navy transition-colors p-1 rounded hover:bg-surface-variant">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-margin-md flex flex-col gap-6 bg-canvas">
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-bold">Intervention ID</label>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-primary bg-primary px-2 py-1 rounded">INT-8492</span>
+<input class="flex-1 px-3 py-2 rounded text-body-md font-body-md input-light border border-outline-variant" placeholder="e.g., Emergency Main Repair" type="text" value="Anna Salai Emergency Closure"/>
+</div>
+</div>
+<div class="w-full h-px bg-outline-variant opacity-50"></div>
+<div class="flex flex-col gap-4">
+<h4 class="text-label-md font-label-md text-deep-navy font-bold uppercase flex items-center gap-2 bg-surface py-1 px-2 rounded -mx-2">
+<span class="material-symbols-outlined text-[16px] text-interaction-blue">my_location</span> Impact Area
+                        </h4>
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Target Corridor</label>
+<div class="relative flex items-center border border-interaction-blue rounded overflow-hidden focus-within:ring-1 focus-within:ring-interaction-blue">
+<div class="pl-3 py-2 bg-surface border-r border-outline-variant">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">search</span>
+</div>
+<input class="w-full pl-3 pr-3 py-2 text-body-md font-body-md bg-canvas border-none focus:ring-0 text-deep-navy font-medium" type="text" value="Anna Salai"/>
+<button class="px-3 py-2 bg-surface hover:bg-surface-variant text-interaction-blue text-label-sm font-label-sm font-bold border-l border-outline-variant transition-colors">
+                                SELECT ON MAP
+                            </button>
+</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant flex justify-between mt-1">
+<span>Selected: Node 4A to Node 7C</span>
+<span class="text-interaction-blue font-bold">3.2 km</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Intervention Action</label>
+<div class="grid grid-cols-3 gap-2">
+<label class="relative flex flex-col items-center p-3 border-2 border-error bg-error-container rounded cursor-pointer text-center">
+<input checked="" class="sr-only" name="intervention_type" type="radio" value="close"/>
+<span class="material-symbols-outlined text-error mb-1">block</span>
+<span class="text-label-sm font-label-sm text-error font-bold">Full Closure</span>
+</label>
+<label class="relative flex flex-col items-center p-3 border border-outline-variant hover:border-interaction-blue rounded cursor-pointer text-center opacity-70 hover:opacity-100 transition-all">
+<input class="sr-only" name="intervention_type" type="radio" value="lane"/>
+<span class="material-symbols-outlined text-deep-navy mb-1">merge</span>
+<span class="text-label-sm font-label-sm text-deep-navy font-bold">Lane Reduction</span>
+</label>
+<label class="relative flex flex-col items-center p-3 border border-outline-variant hover:border-interaction-blue rounded cursor-pointer text-center opacity-70 hover:opacity-100 transition-all">
+<input class="sr-only" name="intervention_type" type="radio" value="speed"/>
+<span class="material-symbols-outlined text-deep-navy mb-1">speed</span>
+<span class="text-label-sm font-label-sm text-deep-navy font-bold">Speed Limit</span>
+</label>
+</div>
+</div>
+</div>
+<div class="w-full h-px bg-outline-variant opacity-50"></div>
+<div class="flex flex-col gap-4">
+<h4 class="text-label-md font-label-md text-deep-navy font-bold uppercase flex items-center gap-2 bg-surface py-1 px-2 rounded -mx-2">
+<span class="material-symbols-outlined text-[16px] text-interaction-blue">model_training</span> Traffic Model Context
+                        </h4>
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Base Condition Model</label>
+<select class="w-full px-3 py-2 rounded text-body-md font-body-md input-light border border-outline-variant appearance-none font-medium text-deep-navy">
+<option selected="" value="evening_rush">Evening Peak (Historical avg + 15% load)</option>
+<option value="morning_rush">Morning Peak (Historical avg)</option>
+<option value="off_peak">Off-Peak / Nominal</option>
+<option value="custom">Custom Load Profile...</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-3 mt-2">
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Start Time</label>
+<input class="w-full px-3 py-2 rounded text-body-md font-body-md input-light border border-outline-variant" type="time" value="17:00"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Duration</label>
+<div class="flex items-center gap-2">
+<input class="w-full px-3 py-2 rounded text-body-md font-body-md input-light border border-outline-variant" min="1" type="number" value="3"/>
+<span class="text-label-md font-label-md text-on-surface-variant">hrs</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-margin-md border-t border-outline-variant bg-surface flex flex-col gap-3">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>Estimated Compute: <span class="font-bold text-deep-navy">~45s</span></span>
+<span>Nodes affected: <span class="font-bold text-deep-navy">1,420</span></span>
+</div>
+<button class="w-full py-3 rounded bg-interaction-blue hover:bg-deep-navy text-on-primary font-title-lg text-title-lg font-bold tracking-wider flex justify-center items-center gap-2 transition-colors shadow-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+                        EXECUTE SIMULATION
+                    </button>
+</div>
+</div>
+</main>
+</div>
+</body></html>
