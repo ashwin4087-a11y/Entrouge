@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ENTROUGE - Digital Twin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "shell-bg": "#F9F7F7",
+                        "shell-surface": "#DBE2EF",
+                        "map-bg-color": "#112D4E",
+                        "map-highlight": "#3F72AF",
+                        "on-surface": "#112D4E",
+                        "on-surface-variant": "#3F72AF",
+                        "brand-accent": "#3F72AF",
+                        "brand-accent-hover": "#2B527A",
+                        "brand-text": "#112D4E",
+                        "outline-variant": "#C0C7D3",
+                        "surface-container": "#F1F5F9",
+                        "surface-container-high": "#E2E8F0",
+                        "error": "#EF4444",
+                        "canvas": "#F9F7F7",
+                        "surface-pale": "#DBE2EF",
+                        "interaction-blue": "#3F72AF",
+                        "deep-navy": "#112D4E",
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem",
+                        "brand": "6px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "margin-md": "24px",
+                        "top-bar-height": "64px",
+                        "margin-sm": "16px",
+                        "panel-width": "340px",
+                        "copilot-width": "380px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter", "sans-serif"],
+                        "label-md": ["JetBrains Mono", "monospace"],
+                        "display-lg": ["Inter", "sans-serif"],
+                        "label-sm": ["JetBrains Mono", "monospace"],
+                        "headline-lg-mobile": ["Inter", "sans-serif"],
+                        "headline-md": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "title-lg": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    .map-bg {
+        background-color: #112D4E;
+        background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAZwDFRdVxmE6j1EQx8QVeTAmQrx2FuxTsm0tsDUd1cjwjca4pdD9UpaNyemOc5BbzGQbhpg6CE4umr0Y2CQvM9_VVBMgJET8Lg550XWnPRM8bNiXMLsPtC14wdTGLEgYZzGqMu6qjM2OCDYoZemgY0wIu0mHTUCg5FuvmK1mH-25KOEPW-Np-F1TRer1FrGFH2XQ2xS25wWu315wzL9RhJllVSeR4EpPbn6vJ_dJDdY0_KIlkNRjrD);
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: overlay;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #3F72AF;
+        border-radius: 6px;
+    }
+    .drawer-open {
+        transform: translateX(0);
+    }
+    .drawer-closed {
+        transform: translateX(100%);
+    }
+    .road-path {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: drawPath 3s forwards, flowPulse 2s infinite 3s;
+    }
+    .flow-arrows {
+        stroke-dasharray: 8 20;
+        animation: dashFlow 2s linear infinite;
+    }
+    @keyframes drawPath {
+        to { stroke-dashoffset: 0; }
+    }
+    @keyframes flowPulse {
+        0% { stroke-opacity: 0.6; }
+        50% { stroke-opacity: 1; }
+        100% { stroke-opacity: 0.6; }
+    }
+    @keyframes dashFlow {
+        from { stroke-dashoffset: 28; }
+        to { stroke-dashoffset: 0; }
+    }
+</style>
+</head>
+<body class="bg-shell-bg text-on-surface h-screen overflow-hidden flex flex-col font-body-md select-none">
+<!-- TopNavBar -->
+<header class="bg-shell-surface text-brand-text docked full-width top-0 h-top-bar-height border-b border-outline-variant flat no shadows fixed top-0 left-0 w-full z-50 flex items-center justify-between px-gutter shadow-sm">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<img alt="Entrouge Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDot9va9_fWiDDyDmIeoe868VT0ip0Y1_KvN8zt06GOPUXh5sTfhcvr9xESjn6rfp_TBscYBIM37bjXr-Z67jMVs6l_uC6bqTio1wr7VUYGRLk1YeShnvbVk6QOCm1QQw7be_nMM6llcDrqASDlvktScbEXNEJCHxJndLsS4Vr6U43NvSk1lVcoKnbv7bw_IbiBQ2CzcC0wVZXTJGLUH5P7Hw1mV0E0Vev3X4oLGBmcrMuNyTWDNYwxHFu3ulqX1YCSnQ"/>
+<span class="text-title-lg font-headline-lg tracking-widest text-on-surface uppercase">ENTROUGE</span>
+</div>
+<nav class="hidden md:flex ml-8 space-x-6 h-full items-center">
+<a class="text-brand-accent font-bold border-b-2 border-brand-accent pb-1 text-label-md font-label-md scale-95" href="#">DIGITAL TWIN</a>
+<a class="text-on-surface-variant text-label-md font-label-md hover:bg-canvas transition-colors px-2 py-1 rounded" href="#">SCENARIOS</a>
+<a class="text-on-surface-variant text-label-md font-label-md hover:bg-canvas transition-colors px-2 py-1 rounded" href="#">REPORTS</a>
+<a class="text-on-surface-variant text-label-md font-label-md hover:bg-canvas transition-colors px-2 py-1 rounded" href="#">COPILOT</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-canvas border border-outline-variant hover:border-brand-accent text-brand-text px-4 py-1.5 rounded-brand text-label-md font-label-md flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[16px] text-brand-accent">sensors</span>
+                Live Status
+            </button>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<button class="p-2 hover:bg-canvas rounded-full transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-2 hover:bg-canvas rounded-full transition-colors"><span class="material-symbols-outlined">schedule</span></button>
+<button class="p-2 hover:bg-canvas rounded-full transition-colors"><span class="material-symbols-outlined">account_circle</span></button>
+</div>
+<!-- Copilot Toggle -->
+<button class="ml-2 bg-brand-accent text-white px-3 py-1.5 rounded-brand text-label-md font-label-md flex items-center gap-2 transition-colors hover:bg-brand-accent-hover shadow-sm" id="copilot-toggle" onclick="document.getElementById('copilot-drawer').classList.toggle('drawer-closed')">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span>
+        Copilot
+    </button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 mt-top-bar-height relative flex overflow-hidden">
+<!-- Left Panel: City Network (SideNavBar Hybrid) -->
+<aside class="w-panel-width h-full relative z-20 bg-shell-surface border-r border-outline-variant flex flex-col shadow-sm">
+<!-- Panel Header -->
+<div class="p-4 border-b border-outline-variant">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-brand-accent">hub</span>
+<h2 class="text-title-lg font-title-lg text-brand-text tracking-wide">CITY NETWORK</h2>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant">Chennai District</p>
+</div>
+<!-- Panel Content - Scrollable -->
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6 bg-shell-bg">
+<!-- Health Status -->
+<div class="bg-white p-4 border border-outline-variant rounded-brand shadow-sm">
+<div class="flex justify-between items-center mb-2">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Network Health</span>
+<span class="flex items-center gap-1 text-label-sm font-label-sm text-brand-accent">
+<span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
+                            Operational
+                        </span>
+</div>
+<div class="text-title-lg font-title-lg text-brand-text">CHENNAI CENTRAL</div>
+</div>
+<!-- KPI Grid -->
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-white p-3 border border-outline-variant rounded-brand hover:border-brand-accent/50 transition-colors group shadow-sm">
+<div class="text-label-sm font-label-sm text-on-surface-variant mb-1 flex items-center justify-between">
+                            Congestion
+                            <span class="material-symbols-outlined text-[14px] text-error">trending_up</span>
+</div>
+<div class="text-headline-md font-headline-md font-mono text-brand-text group-hover:text-brand-accent transition-colors">64%</div>
+</div>
+<div class="bg-white p-3 border border-outline-variant rounded-brand hover:border-brand-accent/50 transition-colors group shadow-sm">
+<div class="text-label-sm font-label-sm text-on-surface-variant mb-1 flex items-center justify-between">
+                            Avg Travel
+                            <span class="material-symbols-outlined text-[14px] text-brand-accent">trending_down</span>
+</div>
+<div class="text-headline-md font-headline-md font-mono text-brand-text group-hover:text-brand-accent transition-colors">21.4<span class="text-title-lg text-on-surface-variant">m</span></div>
+</div>
+<div class="bg-white p-3 border border-outline-variant rounded-brand hover:border-brand-accent/50 transition-colors group shadow-sm">
+<div class="text-label-sm font-label-sm text-on-surface-variant mb-1 flex items-center justify-between">
+                            Vehicles/hr
+                            <span class="material-symbols-outlined text-[14px] text-on-surface-variant">drag_handle</span>
+</div>
+<div class="text-headline-md font-headline-md font-mono text-brand-text group-hover:text-brand-accent transition-colors">18.2<span class="text-title-lg text-on-surface-variant">k</span></div>
+</div>
+<div class="bg-white p-3 border border-outline-variant rounded-brand hover:border-brand-accent/50 transition-colors group shadow-sm">
+<div class="text-label-sm font-label-sm text-on-surface-variant mb-1 flex items-center justify-between">
+                            CO2/hr
+                            <span class="material-symbols-outlined text-[14px] text-error">trending_up</span>
+</div>
+<div class="text-headline-md font-headline-md font-mono text-brand-text group-hover:text-brand-accent transition-colors">4.9<span class="text-title-lg text-on-surface-variant">t</span></div>
+</div>
+</div>
+<!-- Active Corridors -->
+<div>
+<h3 class="text-label-md font-label-md text-on-surface-variant uppercase mb-3 border-b border-outline-variant pb-1">Active Corridors</h3>
+<div class="flex flex-col gap-2">
+<!-- Selected Corridor Item -->
+<div class="bg-brand-accent/10 border-l-4 border-brand-accent p-2 flex justify-between items-center rounded-r cursor-pointer bg-white shadow-sm">
+<span class="text-body-md font-body-md text-brand-text font-medium">Anna Salai</span>
+<span class="bg-canvas px-2 py-0.5 rounded text-label-md font-label-md font-mono text-brand-accent border border-brand-accent/30">88%</span>
+</div>
+<div class="bg-white hover:bg-canvas p-2 flex justify-between items-center rounded cursor-pointer transition-colors border border-outline-variant shadow-sm">
+<span class="text-body-md font-body-md text-brand-text">Mount Road</span>
+<span class="bg-canvas px-2 py-0.5 rounded text-label-md font-label-md font-mono text-on-surface-variant border border-outline-variant/50">67%</span>
+</div>
+<div class="bg-white hover:bg-canvas p-2 flex justify-between items-center rounded cursor-pointer transition-colors border border-outline-variant shadow-sm">
+<span class="text-body-md font-body-md text-brand-text">EVR Periyar Salai</span>
+<span class="bg-canvas px-2 py-0.5 rounded text-label-md font-label-md font-mono text-on-surface-variant border border-outline-variant/50">54%</span>
+</div>
+<div class="bg-white hover:bg-canvas p-2 flex justify-between items-center rounded cursor-pointer transition-colors border border-outline-variant shadow-sm">
+<span class="text-body-md font-body-md text-brand-text">OMR IT Expressway</span>
+<span class="bg-canvas px-2 py-0.5 rounded text-label-md font-label-md font-mono text-on-surface-variant border border-outline-variant/50">42%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel Footer CTA -->
+<div class="p-4 border-t border-outline-variant bg-shell-surface">
+<button class="w-full bg-brand-accent hover:bg-brand-accent-hover text-white font-label-md text-label-md py-3 rounded-brand transition-colors flex items-center justify-center gap-2 uppercase tracking-wide shadow-sm">
+<span class="material-symbols-outlined text-[18px]">play_circle</span>
+                    RUN SIMULATION
+                </button>
+</div>
+</aside>
+<!-- Center Map Area (Dominant Interactive Hero) -->
+<div class="flex-1 relative z-10 flex flex-col justify-between overflow-hidden map-bg">
+<!-- Map Overlays / Visual Markers -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-0" preserveaspectratio="none" viewbox="0 0 1000 800">
+<!-- Base grid/routes subtle hint -->
+<path d="M 200 800 L 400 500 L 600 450 L 900 600" fill="none" stroke="#DBE2EF" stroke-opacity="0.1" stroke-width="4"></path>
+<path d="M 100 200 L 300 400 L 400 500 L 500 200" fill="none" stroke="#DBE2EF" stroke-opacity="0.1" stroke-width="4"></path>
+<!-- Selected Road Highlight (Anna Salai) -->
+<!-- Boundary/Outer Glow -->
+<path d="M 300 700 Q 500 550 700 300 T 900 100" fill="none" stroke="#3F72AF" stroke-linecap="round" stroke-opacity="0.3" stroke-width="16"></path>
+<!-- Main Thicker Route -->
+<path class="road-path" d="M 300 700 Q 500 550 700 300 T 900 100" fill="none" stroke="#3F72AF" stroke-linecap="round" stroke-width="10"></path>
+<!-- Directional Flow Indicators -->
+<path class="flow-arrows" d="M 300 700 Q 500 550 700 300 T 900 100" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-opacity="0.8" stroke-width="3"></path>
+<!-- Text Label on Map -->
+<text fill="#3F72AF" font-family="JetBrains Mono" font-size="14" font-weight="500" letter-spacing="1" x="520" y="520">ANNA SALAI</text>
+<!-- Flow indicator nodes -->
+<circle cx="500" cy="550" fill="#3F72AF" r="8">
+<animate attributename="r" dur="2s" infinite="true" values="8; 16; 8"></animate>
+<animate attributename="opacity" dur="2s" infinite="true" values="1; 0; 1"></animate>
+</circle>
+<circle cx="700" cy="300" fill="#3F72AF" r="8">
+<animate attributename="r" dur="2s" infinite="true" values="8; 16; 8"></animate>
+<animate attributename="opacity" dur="2s" infinite="true" values="1; 0; 1"></animate>
+</circle>
+</svg>
+<!-- Floating Selected Corridor Card -->
+<div class="absolute top-1/4 left-1/4 bg-shell-surface border border-brand-accent shadow-lg rounded-brand p-4 w-[320px] backdrop-blur-md z-20 transition-all transform hover:scale-105">
+<div class="flex justify-between items-start mb-3 border-b border-outline-variant pb-2">
+<div>
+<div class="text-label-sm font-label-sm text-brand-accent uppercase tracking-wider mb-1">Selected Corridor</div>
+<h3 class="text-title-lg font-title-lg text-brand-text">Anna Salai</h3>
+</div>
+<button class="text-on-surface-variant hover:text-brand-text"><span class="material-symbols-outlined text-[18px]">close</span></button>
+</div>
+<div class="flex items-center gap-4 mb-4">
+<div class="flex-1 bg-canvas h-2 rounded-full overflow-hidden border border-outline-variant/50">
+<div class="bg-error h-full w-[88%]"></div>
+</div>
+<span class="text-label-md font-label-md font-mono text-error">88% Load</span>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-white hover:bg-canvas border border-outline-variant hover:border-error/50 text-brand-text text-label-md font-label-md py-2 rounded-brand transition-colors flex items-center justify-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-error">block</span> Close Road
+                    </button>
+<button class="bg-white hover:bg-canvas border border-outline-variant hover:border-brand-accent/50 text-brand-text text-label-md font-label-md py-2 rounded-brand transition-colors flex items-center justify-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-brand-accent">add_road</span> Add Lane
+                    </button>
+<button class="col-span-2 bg-brand-accent hover:bg-brand-accent-hover border border-brand-accent text-white text-label-md font-label-md py-2 rounded-brand transition-colors flex items-center justify-center gap-1 mt-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">science</span> Run Scenario
+                    </button>
+</div>
+</div>
+<!-- Bottom Scenario Bar -->
+<div class="mt-auto self-center bg-shell-surface/95 backdrop-blur-md border border-outline-variant rounded-brand px-6 py-3 flex items-center gap-6 shadow-lg mb-6 z-20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-brand-accent">tune</span>
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Scenario:</span>
+<span class="text-body-md font-body-md text-brand-text font-medium">Baseline Network</span>
+</div>
+<div class="h-6 w-px bg-outline-variant"></div>
+<button class="bg-brand-accent text-white px-6 py-1.5 rounded-brand text-label-md font-label-md font-bold hover:bg-brand-accent-hover transition-colors shadow-sm">
+                    [ RUN SIMULATION ]
+                </button>
+</div>
+</div>
+<!-- Right Panel: Entrouge Copilot (Collapsible Drawer) -->
+<aside class="w-copilot-width h-full absolute right-0 top-0 z-40 bg-shell-surface border-l border-outline-variant flex flex-col shadow-xl transition-transform duration-300 ease-in-out drawer-closed" id="copilot-drawer">
+<div class="p-4 border-b border-outline-variant flex justify-between items-center bg-white">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-brand-accent">smart_toy</span>
+<div>
+<h2 class="text-title-lg font-title-lg text-brand-text tracking-wide uppercase">Entrouge Copilot</h2>
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-brand-accent mt-1 bg-brand-accent/10 w-fit px-2 py-0.5 rounded border border-brand-accent/20">
+<span class="text-[8px]">●</span> CONNECTED TO TWIN
+                    </div>
+</div>
+</div>
+<button class="p-1.5 hover:bg-canvas rounded-md text-on-surface-variant transition-colors" onclick="document.getElementById('copilot-drawer').classList.add('drawer-closed')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4 bg-shell-bg">
+<div class="bg-white p-3 rounded-brand border border-outline-variant text-body-md font-body-md text-brand-text shadow-sm">
+                    How can I assist with the Chennai network analysis today?
+                </div>
+<div class="mt-auto flex flex-col gap-2">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase mb-1">Suggested Prompts</span>
+<button class="text-left bg-white p-3 rounded-brand border border-outline-variant hover:border-brand-accent text-body-md font-body-md text-brand-text transition-colors shadow-sm">
+                        "What happens if I close <span class="text-brand-accent font-medium">Anna Salai</span>?"
+                    </button>
+<button class="text-left bg-white p-3 rounded-brand border border-outline-variant hover:border-brand-accent text-body-md font-body-md text-brand-text transition-colors shadow-sm">
+                        "Predict rush hour congestion for Mount Road."
+                    </button>
+</div>
+</div>
+<div class="p-4 border-t border-outline-variant bg-white">
+<div class="relative">
+<input class="w-full bg-shell-bg border border-outline-variant focus:border-brand-accent rounded-brand py-2.5 pl-3 pr-10 text-body-md font-body-md text-brand-text placeholder-on-surface-variant/70 focus:ring-1 focus:ring-brand-accent transition-all outline-none" placeholder="Ask Copilot..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 text-brand-accent hover:text-brand-accent-hover transition-colors">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+</aside>
+</main>
+<!-- Footer -->
+<footer class="bg-shell-surface text-on-surface-variant docked full-width bottom-0 border-t border-outline-variant flat fixed bottom-0 left-0 w-full z-30 flex justify-between items-center px-gutter py-2 shadow-sm">
+<div class="text-label-sm font-label-sm">© 2024 ENTROUGE URBAN MOBILITY INTELLIGENCE</div>
+<div class="flex items-center gap-6">
+<span class="text-label-sm font-label-sm hover:text-brand-accent transition-colors duration-150 cursor-pointer">System Status: Operational</span>
+<span class="text-label-sm font-label-sm hover:text-brand-accent transition-colors duration-150 cursor-pointer">API v2.4</span>
+<span class="text-label-sm font-label-sm hover:text-brand-accent transition-colors duration-150 cursor-pointer">Documentation</span>
+</div>
+</footer>
+</body></html>
