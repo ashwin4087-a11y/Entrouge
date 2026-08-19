@@ -1,154 +1,112 @@
 import { Icon } from '@/components/Icon'
-import type { SimulationResult } from '@/types'
+import { DigitalTwinMap } from '@/components/Map/DigitalTwinMap'
+import type { NetworkGeoJSON, SelectedRoad, SimulationResult } from '@/types'
+import type { ReactNode } from 'react'
 
 interface SimulationResultsPanelProps {
   result: SimulationResult
   roadName: string
-  onClose: () => void
+  network: NetworkGeoJSON | null
+  selectedRoad: SelectedRoad | null
+  onSelectRoad: (road: SelectedRoad) => void
+  onBack: () => void
 }
 
 export function SimulationResultsPanel({
   result,
   roadName,
-  onClose,
+  network,
+  selectedRoad,
+  onSelectRoad,
+  onBack,
 }: SimulationResultsPanelProps) {
   return (
-    <div className="absolute inset-x-4 top-4 z-30 max-h-[calc(100%-120px)] overflow-y-auto rounded-lg border border-outline-variant bg-canvas/95 p-4 shadow-xl backdrop-blur-md md:inset-x-auto md:right-[420px] md:left-4 md:max-w-2xl">
-      <div className="mb-4 flex items-start justify-between">
-        <div>
-          <div className="mb-1 flex items-center gap-2 font-label-md text-brand-accent">
-            <Icon name="check_circle" className="text-[16px]" />
-            SIMULATION COMPLETE
-          </div>
-          <h2 className="text-2xl font-semibold text-deep-navy">{roadName} Scenario</h2>
-          <p className="mt-1 text-sm text-on-surface-variant">
-            Impact analysis for {roadName} intervention during peak hours.
-          </p>
+    <section className="min-w-0 p-4 md:p-6">
+      <header className="mb-6">
+        <div className="mb-2 flex items-center gap-2 font-label-md text-brand-accent">
+          <Icon name="check_circle" className="text-[16px]" />
+          SIMULATION COMPLETE
         </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="rounded p-1 text-on-surface-variant hover:text-deep-navy"
-        >
-          <Icon name="close" />
-        </button>
-      </div>
+        <h1 className="text-3xl font-semibold text-deep-navy">{roadName} Scenario</h1>
+        <p className="mt-2 text-sm text-on-surface-variant">
+          Impact analysis for {roadName} intervention during peak hours.
+        </p>
+      </header>
 
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-        <MetricCard
-          label="NETWORK CONGESTION"
-          before={`${result.baseline.congestion_index}%`}
-          after={`${result.scenario.congestion_index}%`}
-          delta={`+${result.delta_congestion}% from baseline`}
-        />
-        <MetricCard
-          label="AVG TRAVEL TIME"
-          before={`${result.baseline.avg_travel_time_min}m`}
-          after={`${result.scenario.avg_travel_time_min}m`}
-          delta={`+${result.delta_travel_time_pct}% delay`}
-        />
+      <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <MetricCard label="NETWORK CONGESTION" value={`${result.scenario.congestion_index}%`} delta={`+${result.delta_congestion}% from baseline`} />
+        <MetricCard label="AVG TRAVEL TIME" value={`${result.scenario.avg_travel_time_min} min`} delta={`+${result.delta_travel_time_pct}% delay`} />
         <MetricCard
           label="EST. CO2 EMISSIONS"
-          before={`${result.baseline.co2_kg} kg`}
-          after={`${result.scenario.co2_kg} kg`}
-          delta={`+${result.delta_co2_kg} kg impact`}
+          value={`${result.scenario.co2_kg} kg`}
+          delta={`${result.delta_co2_kg < 0 ? '' : '+'}${result.delta_co2_kg} kg impact`}
         />
       </div>
 
-      {result.alternate_routes.length > 0 && (
-        <div className="mt-4 rounded-lg border border-outline-variant bg-shell-surface p-4">
-          <h3 className="mb-2 flex items-center gap-2 text-lg font-semibold text-deep-navy">
-            <Icon name="insights" className="text-interaction-blue" />
-            Network Impact
-          </h3>
-          <p className="text-sm leading-relaxed text-on-surface-variant">
-            Traffic volume is primarily forced onto{' '}
-            {result.alternate_routes.map((r, i) => (
-              <span key={r}>
-                <span className="rounded bg-surface-container px-1 font-semibold text-deep-navy">
-                  {r}
-                </span>
-                {i < result.alternate_routes.length - 1 ? ' and ' : ''}
-              </span>
-            ))}
-            , exceeding baseline capacity within the simulation window.
-          </p>
-        </div>
-      )}
+      <div className="mt-6 grid min-w-0 gap-6 xl:grid-cols-[minmax(280px,0.85fr)_minmax(0,1.15fr)]">
+        <article className="min-w-0 rounded-lg border-2 border-interaction-blue/30 bg-shell-surface p-5">
+          <h2 className="mb-5 flex items-center gap-2 text-lg font-semibold text-deep-navy">
+            <Icon name="smart_toy" className="text-[24px] text-interaction-blue" />
+            ENTROUGE RECOMMENDATION
+          </h2>
+          <Recommendation label="What happened?">Closure triggered increased load on alternate corridors.</Recommendation>
+          <Recommendation label="Why?">Diverted volume exceeds capacity on parallel routes.</Recommendation>
+          <Recommendation label="What should we do?">
+            <div className="rounded border border-outline-variant bg-canvas p-3">
+              <div className="flex items-start gap-2 font-medium text-deep-navy">
+                <Icon name="adjust" className="text-[20px] text-interaction-blue" />
+                <span>Extend Green Phase by +15s</span>
+              </div>
+              <p className="mt-1 pl-7 text-sm text-on-surface-variant">On stressed alternate corridors</p>
+            </div>
+          </Recommendation>
+        </article>
 
-      <div className="mt-4 rounded-lg border-2 border-interaction-blue/30 bg-shell-surface p-4">
-        <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-deep-navy">
-          <Icon name="smart_toy" className="text-[24px] text-interaction-blue" />
-          ENTROUGE RECOMMENDATION
-        </h3>
-        <div className="space-y-3 text-sm text-deep-navy">
-          <div>
-            <h4 className="mb-1 font-label-md font-bold uppercase tracking-widest text-interaction-blue">
-              What happened?
-            </h4>
-            <p>Closure triggered increased load on alternate corridors.</p>
+        <article className="min-w-0 rounded-lg border border-outline-variant bg-shell-surface p-4">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <h2 className="flex items-center gap-2 text-lg font-semibold text-deep-navy">
+              <Icon name="map" className="text-interaction-blue" />
+              NETWORK IMPACT
+            </h2>
+            <span className="font-label-sm uppercase text-on-surface-variant">Chennai network</span>
           </div>
-          <div>
-            <h4 className="mb-1 font-label-md font-bold uppercase tracking-widest text-interaction-blue">
-              Why?
-            </h4>
-            <p>Diverted volume exceeds capacity on parallel routes.</p>
-          </div>
-          <div>
-            <h4 className="mb-1 font-label-md font-bold uppercase tracking-widest text-interaction-blue">
-              What should we do?
-            </h4>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2 rounded border border-outline-variant bg-canvas p-3">
-                <Icon name="adjust" className="text-[20px] text-interaction-blue" />
-                <div>
-                  <div className="font-label-md font-bold">Extend Green Phase by +15s</div>
-                  <div className="font-label-sm text-on-surface-variant">
-                    On stressed alternate corridors
-                  </div>
-                </div>
-              </li>
-              <li className="flex items-start gap-2 rounded border border-outline-variant bg-canvas p-3">
-                <Icon name="adjust" className="text-[20px] text-interaction-blue" />
-                <div>
-                  <div className="font-label-md font-bold">Deploy VMS Rerouting</div>
-                  <div className="font-label-sm text-on-surface-variant">
-                    At key junction approaches
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
+          <DigitalTwinMap
+            network={network}
+            selectedRoad={selectedRoad}
+            edgeMetrics={result.edges}
+            onSelectRoad={(road) => road && onSelectRoad(road)}
+            className="h-[420px] min-h-0 w-full overflow-hidden rounded"
+          />
+        </article>
       </div>
+
+      <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-outline-variant pt-5">
+        <button type="button" onClick={onBack} className="rounded bg-brand-accent px-4 py-2 font-label-md text-white hover:bg-brand-accent-hover">BACK TO DIGITAL TWIN</button>
+        <button type="button" onClick={() => window.print()} className="rounded border border-outline-variant bg-shell-surface px-4 py-2 font-label-md text-deep-navy hover:border-brand-accent">EXPORT REPORT</button>
+        <button type="button" onClick={() => undefined} className="rounded border border-outline-variant bg-shell-surface px-4 py-2 font-label-md text-deep-navy hover:border-brand-accent">COMPARE SCENARIOS</button>
+      </div>
+    </section>
+  )
+}
+
+function Recommendation({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="mb-5 last:mb-0">
+      <h3 className="mb-1 font-label-md font-bold uppercase tracking-widest text-interaction-blue">{label}</h3>
+      <div className="text-sm leading-relaxed text-deep-navy">{children}</div>
     </div>
   )
 }
 
-function MetricCard({
-  label,
-  before,
-  after,
-  delta,
-}: {
-  label: string
-  before: string
-  after: string
-  delta: string
-}) {
+function MetricCard({ label, value, delta }: { label: string; value: string; delta: string }) {
   return (
-    <div className="hover-glow flex flex-col rounded-lg border border-outline-variant bg-shell-surface p-4 shadow-sm transition-all">
-      <div className="mb-1 flex items-center justify-between font-label-sm font-bold text-on-surface-variant">
-        {label}
-        <Icon name="trending_up" className="text-[16px] text-error" />
+    <div className="min-w-0 rounded-lg border border-outline-variant bg-shell-surface p-4 shadow-sm">
+      <div className="mb-3 flex items-start justify-between gap-2 font-label-sm font-bold text-on-surface-variant">
+        <span>{label}</span>
+        <Icon name="trending_up" className="shrink-0 text-[16px] text-brand-accent" />
       </div>
-      <div className="flex items-baseline gap-3">
-        <span className="text-2xl font-semibold text-on-surface-variant line-through opacity-60">
-          {before}
-        </span>
-        <span className="text-4xl font-bold text-error">{after}</span>
-      </div>
-      <div className="mt-1 font-label-sm font-bold text-error">{delta}</div>
+      <div className="truncate text-3xl font-bold text-deep-navy">{value}</div>
+      <div className="mt-2 font-label-sm font-bold text-brand-accent">{delta}</div>
     </div>
   )
 }

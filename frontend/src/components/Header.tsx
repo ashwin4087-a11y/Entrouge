@@ -1,13 +1,8 @@
 import { Icon } from '@/components/Icon'
 
-interface HeaderProps {
-  copilotOpen: boolean
-  onCopilotToggle: () => void
-}
+const NAV_ITEMS = ['DIGITAL TWIN', 'SCENARIOS', 'REPORTS'] as const
 
-const NAV_ITEMS = ['DIGITAL TWIN', 'SCENARIOS', 'REPORTS', 'COPILOT'] as const
-
-export function Header({ copilotOpen, onCopilotToggle }: HeaderProps) {
+export function Header() {
   return (
     <header className="fixed top-0 left-0 z-50 flex h-16 w-full items-center justify-between border-b border-outline-variant bg-shell-surface px-6 shadow-sm">
       <div className="flex items-center gap-4">
@@ -23,21 +18,16 @@ export function Header({ copilotOpen, onCopilotToggle }: HeaderProps) {
         </div>
         <nav className="ml-8 hidden items-center gap-6 md:flex">
           {NAV_ITEMS.map((item) => (
-            <a
+            <span
               key={item}
-              href="#"
-              onClick={(e) => {
-                e.preventDefault()
-                if (item === 'COPILOT') onCopilotToggle()
-              }}
-              className={`font-label-md px-2 py-1 transition-colors ${
-                item === 'DIGITAL TWIN' || (item === 'COPILOT' && copilotOpen)
+              className={`font-label-md px-2 py-1 ${
+                item === 'DIGITAL TWIN'
                   ? 'border-b-2 border-brand-accent font-bold text-brand-accent'
                   : 'text-on-surface-variant hover:bg-canvas'
               }`}
             >
               {item}
-            </a>
+            </span>
           ))}
         </nav>
       </div>
@@ -60,14 +50,6 @@ export function Header({ copilotOpen, onCopilotToggle }: HeaderProps) {
             <Icon name="account_circle" />
           </button>
         </div>
-        <button
-          type="button"
-          onClick={onCopilotToggle}
-          className="ml-2 flex items-center gap-2 rounded-[6px] bg-brand-accent px-3 py-1.5 font-label-md text-white shadow-sm transition-colors hover:bg-brand-accent-hover"
-        >
-          <Icon name="smart_toy" className="text-[18px]" />
-          Copilot
-        </button>
       </div>
     </header>
   )
