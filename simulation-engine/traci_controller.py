@@ -31,6 +31,7 @@ os.environ["SUMO_HOME"] = sumo_home
 import traci
 
 from metrics import SimulationMetrics
+import visualization
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SUMOCFG = os.path.join(SCRIPT_DIR, "sumo", "configs", "chennai_test.sumocfg")
@@ -62,6 +63,11 @@ def main():
 
     print(f"Starting SUMO with TraCI ({'GUI' if use_gui else 'Headless'})...")
     traci.start(sumo_cmd)
+    
+    if use_gui:
+        visualization.print_color_legend()
+        visualization.reset_vehicle_colors()
+        visualization.initialize_camera(use_gui)
 
     metrics = SimulationMetrics()
 
@@ -71,6 +77,8 @@ def main():
     # Loop while there are vehicles expected or active
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
+        
+        visualization.apply_vehicle_colors(use_gui)
         
         time = traci.simulation.getTime()
         

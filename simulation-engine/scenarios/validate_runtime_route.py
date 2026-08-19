@@ -66,3 +66,33 @@ def path_exists(net, start_id, end_id, closed_id):
                 queue.append(out_id)
                 
     return False
+
+def build_path_excluding_edge(net, start_id, end_id, closed_id):
+    """Return a concrete edge path from start_id to end_id avoiding closed_id, or None."""
+    if start_id == end_id:
+        return [start_id]
+
+    visited = {start_id}
+    queue = [(start_id, [start_id])]
+
+    while queue:
+        curr, path = queue.pop(0)
+        if curr == end_id:
+            return path
+
+        if curr.startswith(":"):
+            continue
+
+        curr_obj = net.getEdge(curr)
+        for out_edge in curr_obj.getOutgoing():
+            out_id = out_edge.getID()
+            if out_id == closed_id:
+                continue
+            if not out_edge.allows("passenger"):
+                continue
+            if out_id in visited:
+                continue
+            visited.add(out_id)
+            queue.append((out_id, path + [out_id]))
+
+    return None

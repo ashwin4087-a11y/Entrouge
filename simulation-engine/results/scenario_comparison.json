@@ -2,33 +2,33 @@
     "scenario": {
         "type": "road_closure",
         "network": "Chennai",
-        "closed_edge": "28138955#1",
+        "closed_edge": "23499970#1-AddedOnRampEdge",
         "closure_time": 300
     },
     "baseline": {
-        "departed": 42,
-        "arrived": 42,
-        "average_speed_mps": 10.61,
-        "average_wait_sec": 3.77,
-        "max_wait_sec": 40.0,
+        "departed": 100,
+        "arrived": 100,
+        "average_speed_mps": 13.23,
+        "average_wait_sec": 6.81,
+        "max_wait_sec": 51.0,
         "teleports": 0
     },
     "closure": {
-        "departed": 42,
-        "arrived": 42,
-        "average_speed_mps": 10.79,
-        "average_wait_sec": 6.25,
-        "max_wait_sec": 100.0,
-        "teleports": 2
+        "departed": 0,
+        "arrived": 0,
+        "average_speed_mps": 0.0,
+        "average_wait_sec": 0.0,
+        "max_wait_sec": 0.0,
+        "teleports": 0
     },
     "impact": {
-        "speed_change_percent": 1.68,
-        "waiting_time_change_percent": 65.92,
-        "arrival_change_percent": 0.0
+        "speed_change_percent": -100.0,
+        "waiting_time_change_percent": -100.0,
+        "arrival_change_percent": -100.0
     },
     "rerouting": {
-        "affected_vehicles": 6,
-        "rerouted_vehicles": 4,
-        "failed_reroutes": 2
+        "affected_vehicles": 0,
+        "rerouted_vehicles": 0,
+        "failed_reroutes": 0
     }
 }
